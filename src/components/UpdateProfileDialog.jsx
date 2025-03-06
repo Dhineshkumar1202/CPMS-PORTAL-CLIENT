@@ -14,58 +14,61 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const { user } = useSelector(store => store.auth);
 
     const [input, setInput] = useState({
-        fullname: user?.fullname,
-        email: user?.email,
-        phoneNumber: user?.phoneNumber,
-        bio: user?.profile?.bio,
-        skills: user?.profile?.skills?.map(skill => skill),
-        file: user?.profile?.resume
+        fullname: user?.fullname || "",
+        email: user?.email || "",
+        phoneNumber: user?.phoneNumber || "",
+        bio: user?.profile?.bio || "",
+        skills: user?.profile?.skills?.join(', ') || "",
+        file: user?.profile?.resume || null
     });
+
     const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
-    }
+    };
 
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0];
-        setInput({ ...input, file })
-    }
+        setInput({ ...input, file });
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        setloading(true);
+        
         const formData = new FormData();
-        formData.append("fullname", input.fullname)
-        formData.append("email", input.email)
-        formData.append("phoneNumber", input.phoneNumber)
-        formData.append("bio", input.bio)
-        formData.append("skills", input.skills)
+        formData.append("fullname", input.fullname);
+        formData.append("email", input.email);
+        formData.append("phoneNumber", input.phoneNumber);
+        formData.append("bio", input.bio);
+        formData.append("skills", input.skills);
         if (input.file) {
-            formData.append("file", input.file)
+            formData.append("file", input.file);
         }
+
         try {
-            const res = await axios.post("http://localhost:8000/api/user/profile/update", formData,{
-                        headers:{
-                            'Content-Type':'multipart/form-data'
-                        },
-                        withCredentials:true
+            const res = await axios.post("http://localhost:8000/api/user/profile/update", formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true
             });
+
             if (res.data.success) {
                 dispatch(setUser(res.data.user));
                 toast.success(res.data.message);
+                setOpen(false);
             }
         } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message)
-            }
-        setOpen(false);
-        console.log(input);
-    }
-
+            console.error(error);
+            toast.error(error.response?.data?.message || "Something went wrong");
+        }
+        
+        setloading(false);
+    };
 
     return (
-        <Dialog open={open} >
-            <DialogContent className="sm:max-w[425px]" onInteractOutside={() => setOpen(false)}>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Update Profile</DialogTitle>
                 </DialogHeader>
@@ -73,8 +76,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                     <div className='grid gap-4 py-4'>
                         {/* Name */}
                         <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="name" className="text-right">Name</Label>
-                            <Input id="name" name="name" value={input.name} type="text" onChange={changeEventHandler} className="col-span-3" />
+                            <Label htmlFor="fullname" className="text-right">Name</Label>
+                            <Input id="fullname" name="fullname" value={input.fullname} type="text" onChange={changeEventHandler} className="col-span-3" />
                         </div>
 
                         {/* Email */}
@@ -85,8 +88,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
                         {/* Number */}
                         <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="number" className="text-right">Number</Label>
-                            <Input id="number" name="number" value={input.phoneNumber} onChange={changeEventHandler} className="col-span-3" />
+                            <Label htmlFor="phoneNumber" className="text-right">Number</Label>
+                            <Input id="phoneNumber" name="phoneNumber" value={input.phoneNumber} onChange={changeEventHandler} className="col-span-3" />
                         </div>
 
                         {/* Bio */}
@@ -98,7 +101,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                         {/* Skills */}
                         <div className='grid grid-cols-4 items-center gap-4'>
                             <Label htmlFor="skills" className="text-right">Skills</Label>
-                            <Input id="skills" name="skills" onChange={changeEventHandler} className="col-span-3" />
+                            <Input id="skills" name="skills" value={input.skills} onChange={changeEventHandler} className="col-span-3" />
                         </div>
 
                         {/* Resume Upload */}
@@ -109,13 +112,18 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                     </div>
                     <DialogFooter>
                         {
-                            loading ? <Button className="w-full my-4"><Loader2 className='mr-4 h-4 w-4 animate-spin' />Please Wait</Button> : <Button type="submit" className="w-full  my-4">Update</Button>
+                            loading ? 
+                                <Button className="w-full my-4" disabled>
+                                    <Loader2 className='mr-4 h-4 w-4 animate-spin' /> Please Wait
+                                </Button> 
+                                : 
+                                <Button type="submit" className="w-full my-4">Update</Button>
                         }
                     </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>
     );
-}
+};
 
 export default UpdateProfileDialog;
