@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const user = useSelector((store) => store.auth?.user) || {}; 
+    const user = useSelector((store) => store.auth?.user) || {};
 
     const [input, setInput] = useState({
         fullname: user.fullname || "",
@@ -47,13 +47,14 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             formData.append("file", input.file);
         }
 
-        const API_URL = process.env.REACT_APP_API_URL;
+        const API_URL = import.meta.env.VITE_API_URL || process.env.REACT_APP_API_URL;
         if (!API_URL) {
             console.error("API URL is not defined. Check your .env file.");
             toast.error("Server configuration error.");
             setLoading(false);
             return;
         }
+
 
         try {
             const res = await axios.post(
