@@ -47,21 +47,16 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             formData.append("file", input.file);
         }
 
-        const API_URL = import.meta.env.VITE_API_URL || process.env.REACT_APP_API_URL;
-        if (!API_URL) {
-            console.error("API URL is not defined. Check your .env file.");
-            toast.error("Server configuration error.");
-            setLoading(false);
-            return;
-        }
-
-
         try {
-            const res = await axios.post(
+            const token = localStorage.getItem("token"); 
+            const res = await axios.put(
                 `http://localhost:8000/api/user/profile/update`,
                 formData,
                 {
-                    headers: { 'Content-Type': 'multipart/form-data' },
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
+                    },
                     withCredentials: true,
                 }
             );
