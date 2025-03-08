@@ -65,7 +65,7 @@ const Profile = () => {
                 <AppliedJobTable />
             </div>
 
-            {/* Pass open state and setter to the dialog */}
+            
             <UpdateProfileDialog open={open} setOpen={setOpen} />
         </div>
     )

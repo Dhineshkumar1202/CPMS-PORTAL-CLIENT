@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
@@ -13,15 +13,26 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector((store) => store.auth?.user) || {};
+    const [token, setToken] = useState("");
 
     const [input, setInput] = useState({
         fullname: user.fullname || "",
         email: user.email || "",
         phoneNumber: user.phoneNumber || "",
         bio: user.profile?.bio || "",
-        skills: user.profile?.skills?.join(', ') || "",
+        skills: user.profile?.skills ? user.profile.skills.join(", ") : "",
         file: null,
     });
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            setToken(storedToken);
+            console.log("Extracted Token:", storedToken);
+        } else {
+            toast.error("No token found! Please log in.");
+        }
+    }, []);
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -34,21 +45,33 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        if (loading) return;  
         setLoading(true);
+
+        if (!token) {
+            toast.error("Unauthorized: No token found. Please log in again.");
+            setLoading(false);
+            return;
+        }
+
+        console.log("Token sent:", token);
 
         const formData = new FormData();
         formData.append("fullname", input.fullname);
         formData.append("email", input.email);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
-        formData.append("skills", JSON.stringify(input.skills ? input.skills.split(",").map(skill => skill.trim()) : []));
 
-        if (input.file instanceof File) {
+        // Properly format skills array
+        const skillsArray = input.skills ? input.skills.split(",").map(skill => skill.trim()) : [];
+        formData.append("skills", JSON.stringify(skillsArray));
+
+        // Validate and append file if selected
+        if (input.file && input.file instanceof File) {
             formData.append("file", input.file);
         }
 
         try {
-            const token = localStorage.getItem("token"); 
             const res = await axios.put(
                 `http://localhost:8000/api/user/profile/update`,
                 formData,
@@ -67,7 +90,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 setOpen(false);
             }
         } catch (error) {
-            console.error(error);
+            console.error("Update Error:", error);
             toast.error(error.response?.data?.message || "Something went wrong");
         }
 
@@ -82,26 +105,18 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 </DialogHeader>
                 <form onSubmit={submitHandler}>
                     <div className='grid gap-4 py-4'>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="fullname" className="text-right">Name</Label>
-                            <Input id="fullname" name="fullname" value={input.fullname} type="text" onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="email" className="text-right">Email</Label>
-                            <Input id="email" name="email" value={input.email} type="email" onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="phoneNumber" className="text-right">Number</Label>
-                            <Input id="phoneNumber" name="phoneNumber" value={input.phoneNumber} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="bio" className="text-right">Bio</Label>
-                            <Input id="bio" name="bio" value={input.bio} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="skills" className="text-right">Skills</Label>
-                            <Input id="skills" name="skills" value={input.skills} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
+                        {[
+                            { id: "fullname", label: "Name", type: "text" },
+                            { id: "email", label: "Email", type: "email" },
+                            { id: "phoneNumber", label: "Number", type: "text" },
+                            { id: "bio", label: "Bio", type: "text" },
+                            { id: "skills", label: "Skills", type: "text" },
+                        ].map(({ id, label, type }) => (
+                            <div key={id} className='grid grid-cols-4 items-center gap-4'>
+                                <Label htmlFor={id} className="text-right">{label}</Label>
+                                <Input id={id} name={id} type={type} value={input[id]} onChange={changeEventHandler} className="col-span-3" />
+                            </div>
+                        ))}
                         <div className='grid grid-cols-4 items-center gap-4'>
                             <Label htmlFor="file" className="text-right">Resume</Label>
                             <Input id="file" name="file" type="file" onChange={fileChangeHandler} accept="application/pdf" className="col-span-3" />
