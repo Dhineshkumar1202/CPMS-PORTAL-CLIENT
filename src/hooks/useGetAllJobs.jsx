@@ -5,26 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 
 const useGetAllJobs = () => {
   const dispatch = useDispatch();
-  const jobs = useSelector((state) => state.job.allJobs); 
-
+  const jobs = useSelector((state) => state.job.allJobs);
+  
   useEffect(() => {
+    if (jobs?.length > 0) return; 
+
     const fetchAllJobs = async () => {
       try {
-        const res = await axios.get("https://cpms-portal-server-tghf.vercel.app/api/job/get", {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/job/get`, {
           withCredentials: true,
         });
+
         if (res.data.success) {
           dispatch(setAllJobs(res.data.jobs));
         }
       } catch (error) {
-        console.error("Error fetching jobs:", error);
+        console.error("Error fetching jobs:", error.response?.data?.message || error.message);
       }
     };
 
     fetchAllJobs();
-  }, [dispatch]);
+  }, [dispatch, jobs]);
 
-  return jobs; 
+  return jobs;
 };
 
 export default useGetAllJobs;
