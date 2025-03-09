@@ -4,10 +4,10 @@ import { HeroSection } from './HeroSection';
 import CategoryCarousel from './CategoryCarousel';
 import { LatestJobs } from './LatestJobs';
 import { Footer } from './shared/Footer';
-import useGetAllJobs from '../hooks/useGetAllJobs'; // Import the hook
+import useGetAllJobs from '../hooks/useGetAllJobs'; 
 
 export const Home = () => {
-  useGetAllJobs(); // Fetch jobs when the component mounts
+  useGetAllJobs(); 
 
   return (
     <div>
