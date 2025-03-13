@@ -1,7 +1,5 @@
 import React from 'react'
-import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-
+import {createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Home } from './components/Home'
 import { Jobs } from './components/Jobs'
 import { Browse } from './components/Browse'

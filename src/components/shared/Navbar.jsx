@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export const Navbar = () => {
-    const { user } = useSelector(store => store.auth);
+    const user = useSelector(state => state.auth.user);
 
     return (
         <div className='bg-white'>

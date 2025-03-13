@@ -13,6 +13,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector((store) => store.auth?.user) || {};
+    console.log(user);
+    
     const [token, setToken] = useState("");
 
     const [input, setInput] = useState({
@@ -48,25 +50,17 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         if (loading) return;  
         setLoading(true);
 
-        if (!token) {
-            toast.error("Unauthorized: No token found. Please log in again.");
-            setLoading(false);
-            return;
-        }
-
-        console.log("Token sent:", token);
-
         const formData = new FormData();
         formData.append("fullname", input.fullname);
         formData.append("email", input.email);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
 
-        // Properly format skills array
-        const skillsArray = input.skills ? input.skills.split(",").map(skill => skill.trim()) : [];
-        formData.append("skills", JSON.stringify(skillsArray));
 
-        // Validate and append file if selected
+        const skillsArray = input.skills ? input.skills.split(",").map(skill => skill.trim()) : [];
+        formData.append("skills", skillsArray.join(",")); 
+
+       
         if (input.file && input.file instanceof File) {
             formData.append("file", input.file);
         }

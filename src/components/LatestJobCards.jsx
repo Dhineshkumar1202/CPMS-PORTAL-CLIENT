@@ -1,13 +1,8 @@
 import React from 'react';
 import { Badge } from './ui/badge';
 
-export const LatestJobCards = ({ job }) => {
-  if (!job || typeof job !== 'object') {
-    console.warn("Job data missing or invalid:", job);
-    return null; // Prevents rendering if job is missing or not an object
-  }
-
-  return (
+export const LatestJobCards = ({job}) => {
+return (
     <div className="p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer">
       <h1 className="font-medium text-lg">{job?.company?.name || "Unknown Company"}</h1>
       <p className="text-sm text-gray-500">{job?.location || "Location Not Provided"}</p>
