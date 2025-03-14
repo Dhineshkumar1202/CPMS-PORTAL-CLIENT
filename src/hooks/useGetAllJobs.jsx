@@ -1,28 +1,25 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setAllJobs } from '../redux/jobSlice';  // Import the action
+import { setAllAppliedJobs } from "@/redux/jobSlice";
+import { APPLICATION_API_END_POINT } from "@/utils/constant";
+import axios from "axios"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
-const useGetAllJobs = () => {
-  const dispatch = useDispatch();
-  const allJobs = useSelector((store) => store.job.allJobs); // Get jobs from Redux
+const useGetAppliedJobs = () => {
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchAllJobs = async () => {
-      try {
-        const res = await axios.get("http://localhost:8000/api/job/get", { withCredentials: true });
-        if (res.data.success) {
-          dispatch(setAllJobs(res.data.jobs));
+    useEffect(()=>{
+        const fetchAppliedJobs = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8000/api/job/get`, {withCredentials:true});
+                console.log(res.data);
+                if(res.data.success){
+                    dispatch(setAllAppliedJobs(res.data.application));
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
-      } catch (error) {
-        console.error("Error fetching jobs:", error);
-      }
-    };
-
-    fetchAllJobs();
-  }, [dispatch]); 
-
-  return allJobs;
+        fetchAppliedJobs();
+    },[])
 };
-
-export default useGetAllJobs;
+export default useGetAppliedJobs;
