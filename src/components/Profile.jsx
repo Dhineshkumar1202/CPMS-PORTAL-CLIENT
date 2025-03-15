@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import { Contact, Mail, Pen } from 'lucide-react'
@@ -8,8 +7,8 @@ import { Label } from './ui/label'
 import AppliedJobTable from './AppliedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
-import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { Navbar } from './shared/Navbar'
+import useGetAppliedJobs from '@/hooks/useGetAllJobs'
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
 const isResume = true;
