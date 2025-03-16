@@ -1,11 +1,13 @@
-import React from 'react';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { Label } from './ui/label';
+import { setSearchedQuery } from "@/redux/jobSlice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Label } from "./ui/label";
 
 const filterData = [
     {
         filterType: "Location",
-        array: ["Colombo", "Kandy", "Jaffna", "Vavuniya"]
+        array: ["Colombo", "Kandy", "Kaluthara", "Galle", "Mattala"]
     },
     {
         filterType: "Industry",
@@ -13,31 +15,40 @@ const filterData = [
     },
     {
         filterType: "Salary",
-        array: ["0-40K", "42K-1Lakh", "1Lakh to 5Lakh"]
+        array: ["0-40k", "42-1lakh", "1lakh to 5lakh"]
     },
 ];
 
-export const FilterCard = () => {
+const FilterCard = () => {
+    const [selectedValue, setSelectedValue] = useState('');
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setSearchedQuery(selectedValue));
+    }, [selectedValue, dispatch]);
+
     return (
-        <div className="w-full bg-white p-3 rounded-md">
-            <h1 className="font-bold text-lg">Filter Jobs</h1>
-            <hr className="mt-3" />
-            {filterData.map((data, index) => (
-                <div key={index}>
-                    <h1 className="font-bold text-lg">{data.filterType}</h1>
-                    <RadioGroup>
-                        {data.array.map((item, subIndex) => {
-                            const id = `${data.filterType}-${subIndex}`;
+        <div className='w-full bg-white p-3 rounded-md'>
+            <h1 className='font-bold text-lg'>Filter Jobs</h1>
+            <hr className='mt-3' />
+            <RadioGroup value={selectedValue} onValueChange={setSelectedValue}>
+                {filterData.map((data, index) => (
+                    <div key={index}>
+                        <h1 className='font-bold text-lg'>{data.filterType}</h1>
+                        {data.array.map((item, idx) => {
+                            const itemId = `id${index}-${idx}`;
                             return (
-                                <div key={subIndex} className="flex items-center space-x-2 my-2">
-                                    <RadioGroupItem id={id} value={item} />
-                                    <Label htmlFor={id}>{item}</Label>
+                                <div className='flex items-center space-x-2 my-2' key={itemId}>
+                                    <RadioGroupItem value={item} id={itemId} />
+                                    <Label htmlFor={itemId}>{item}</Label>
                                 </div>
                             );
                         })}
-                    </RadioGroup>
-                </div>
-            ))}
+                    </div>
+                ))}
+            </RadioGroup>
         </div>
     );
 };
+
+export default FilterCard;

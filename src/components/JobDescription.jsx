@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Badge } from './ui/badge'
-import { Button } from './ui/button'
-import { useParams } from 'react-router-dom';
+
 import axios from 'axios';
 import { setSingleJob } from '@/redux/jobSlice';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { Button } from './ui/button';
+import { Badge } from 'lucide-react';
+
+
 
 const JobDescription = () => {
     const {singleJob} = useSelector(store => store.job);
@@ -19,7 +22,7 @@ const JobDescription = () => {
 
     const applyJobHandler = async () => {
         try {
-            const res = await axios.get(`http://localhost:8000/api/application/apply/${jobId}`, {withCredentials:true});
+            const res = await axios.get(`http://localhost:8000/api/application/applied-jobs/${jobId}`, {withCredentials:true});
             
             if(res.data.success){
                 setIsApplied(true); // Update the local state
@@ -37,7 +40,7 @@ const JobDescription = () => {
     useEffect(()=>{
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{withCredentials:true});
+                const res = await axios.get(`http://localhost:8000/api/job/get/${jobId}`,{withCredentials:true});
                 if(res.data.success){
                     dispatch(setSingleJob(res.data.job));
                     setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data
