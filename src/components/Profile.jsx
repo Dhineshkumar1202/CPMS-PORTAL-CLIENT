@@ -55,13 +55,9 @@ const Profile = () => {
                 </div>
                 <div className='grid w-full max-w-sm items-center gap-1.5'>
                     <Label className="text-md font-bold">Resume</Label>
-                    {user?.profile?.resume ? (
-                        <a target="_blank" rel="noopener noreferrer" href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>
-                            {user?.profile?.resumeOriginalName || "View Resume"}
-                        </a>
-                    ) : (
-                        <span>NA</span>
-                    )}
+                    {
+                        isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                    }
                 </div>
 
             </div>
