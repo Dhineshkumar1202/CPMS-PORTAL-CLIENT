@@ -8,6 +8,7 @@ import AppliedJobTable from './AppliedJobTable';
 import UpdateProfileDialog from './UpdateProfileDialog';
 import useGetAppliedJobs from '@/hooks/useGetAllJobs';
 import { useSelector } from 'react-redux';
+import { Badge } from './ui/badge';
 
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
