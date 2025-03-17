@@ -1,10 +1,14 @@
-import FilterCard from './FilterCard';
-import { Navbar } from './shared/Navbar';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import FilterCard from "./FilterCard";
+import Job from "./Job";
+import { Navbar } from "./shared/Navbar";
+import { useEffect, useState } from "react";
+
+
+
+
 
 // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
-
 const Jobs = () => {
     const { allJobs, searchedQuery } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allJobs);
@@ -42,7 +46,7 @@ const Jobs = () => {
                                                 exit={{ opacity: 0, x: -100 }}
                                                 transition={{ duration: 0.3 }}
                                                 key={job?._id}>
-                                               <Job job={job}/>
+                                                <Job job={job} />
                                             </motion.div>
                                         ))
                                     }

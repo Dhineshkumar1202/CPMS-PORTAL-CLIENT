@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import { Loader2 } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
-import { setUser } from '@/redux/authSlice'
-import { toast } from 'sonner'
+import { useDispatch, useSelector } from 'react-redux';
+import { Dialog, DialogContent, DialogFooter, DialogHeader } from './ui/dialog';
+import { DialogTitle } from '@radix-ui/react-dialog';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+
+
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);

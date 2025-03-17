@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { Avatar, AvatarImage } from './ui/avatar'
-import { Button } from './ui/button'
-import { Contact, Mail, Pen } from 'lucide-react'
-import { Badge } from './ui/badge'
-import { Label } from './ui/label'
-import AppliedJobTable from './AppliedJobTable'
-import UpdateProfileDialog from './UpdateProfileDialog'
-import { useSelector } from 'react-redux'
-import { Navbar } from './shared/Navbar'
-import useGetAppliedJobs from '@/hooks/useGetAllJobs'
+import { Navbar } from './shared/Navbar';
+import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
+import { Button } from './ui/button';
+import { Contact, Mail, Pen } from 'lucide-react';
+import { Label } from './ui/label';
+import AppliedJobTable from './AppliedJobTable';
+import UpdateProfileDialog from './UpdateProfileDialog';
+import useGetAppliedJobs from '@/hooks/useGetAllJobs';
+import { useSelector } from 'react-redux';
+
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
 const isResume = true;
@@ -16,11 +16,11 @@ const isResume = true;
 const Profile = () => {
     useGetAppliedJobs();
     const [open, setOpen] = useState(false);
-    const { user } = useSelector(store => store.auth);
+    const {user} = useSelector(store=>store.auth);
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <div className='max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
                 <div className='flex justify-between'>
                     <div className='flex items-center gap-4'>
@@ -64,7 +64,7 @@ const Profile = () => {
                 {/* Applied Job Table   */}
                 <AppliedJobTable />
             </div>
-            <UpdateProfileDialog open={open} setOpen={setOpen} />
+            <UpdateProfileDialog open={open} setOpen={setOpen}/>
         </div>
     )
 }
