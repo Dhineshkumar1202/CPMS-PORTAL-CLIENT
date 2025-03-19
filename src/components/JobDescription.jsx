@@ -18,7 +18,7 @@ const JobDescription = () => {
     const applyJobHandler = async () => {
         try {
             const res = await axios.get(`http://localhost:8000/api/application/apply/${jobId}`, {withCredentials:true});
-            
+
             if(res.data.success){
                 setIsApplied(true); 
                 const updatedSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
@@ -32,20 +32,20 @@ const JobDescription = () => {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/application/get/${jobId}`,{withCredentials:true});
-                if(res.data.success){
+                const res = await axios.get(`http://localhost:8000/api/job/get/${jobId}`, { withCredentials: true });
+                if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
-                    setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data
+                    setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id)) // Ensure the state is in sync with fetched data
                 }
             } catch (error) {
                 console.log(error);
             }
         }
-        fetchSingleJob(); 
-    },[jobId,dispatch, user?._id]);
+        fetchSingleJob();
+    }, [jobId, dispatch, user?._id]);
 
     return (
         <div className='max-w-7xl mx-auto my-10'>
@@ -59,7 +59,7 @@ const JobDescription = () => {
                     </div>
                 </div>
                 <Button
-                onClick={isApplied ? null : applyJobHandler}
+                    onClick={isApplied ? null : applyJobHandler}
                     disabled={isApplied}
                     className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
                     {isApplied ? 'Already Applied' : 'Apply Now'}
