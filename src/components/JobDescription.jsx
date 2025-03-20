@@ -41,7 +41,7 @@ const JobDescription = () => {
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/job/get/${jobId}`, { withCredentials: true });
+                const res = await axios.get(`https://cpms-portal-server.vercel.app/api/job/get/${jobId}`, { withCredentials: true });
 
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
