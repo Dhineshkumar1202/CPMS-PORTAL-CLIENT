@@ -9,7 +9,7 @@ const useGetAllJobs = () => {
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
-        const res = await axios.get(`https://cpms-portal-server.vercel.app/api/job/get`, { withCredentials: true });
+        const res = await axios.get(`http://localhost:8000/api/job/get`, { withCredentials: true });
         if (res.data.success) {
           dispatch(setAllJobs(res.data.jobs));
         }

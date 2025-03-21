@@ -48,7 +48,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         }
         try {
             setLoading(true);
-            const res = await axios.post(`https://cpms-portal-server.vercel.app/api/user/profile/update`, formData, {
+            const res = await axios.post(`http://localhost:8000/api/user/profile/update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

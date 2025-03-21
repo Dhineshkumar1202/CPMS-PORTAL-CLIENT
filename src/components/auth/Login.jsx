@@ -29,7 +29,7 @@ const Login = () => {
         e.preventDefault();
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`https://cpms-portal-server.vercel.app/api/user/login`, input, {
+            const res = await axios.post(`http://localhost:8000/api/user/login`, input, {
                 headers: {
                     "Content-Type": "application/json"
                 },
