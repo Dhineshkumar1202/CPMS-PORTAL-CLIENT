@@ -8,6 +8,8 @@ import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Jobs from './components/Jobs'
 import Companies from './components/admin/companies'
+import CompanyCreate from './components/admin/CompanyCreate'
+import CompanySetup from './components/admin/CompanySetup'
 
 
 
@@ -42,9 +44,18 @@ const appRouter = createBrowserRouter([
   },
   // Admin
   {
-    path:'/admin/Companies',
+    path:'/admin/companies',
     element:<Companies/>
   },
+  {
+    path:'/admin/companies/create',
+    element:<CompanyCreate/>
+  },
+  {
+    path:'/admin/companies/:id',
+    element:<CompanySetup/>
+  }
+
 ])
 
 function App() {

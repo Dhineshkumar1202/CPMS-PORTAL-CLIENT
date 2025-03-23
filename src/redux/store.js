@@ -1,6 +1,7 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, } from "@reduxjs/toolkit";
 import authSlice from "./authSlice";
 import jobSlice from "./jobSlice";
+import companyslice from "./CompanySlice"
 import {
   persistStore,
   persistReducer,
@@ -19,15 +20,16 @@ const persistConfig = {
   storage,
 }
 const rootReducer = combineReducers({
-  auth:authSlice,
-  job:jobSlice
+  auth: authSlice,
+  job: jobSlice,
+  company: companyslice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 
 const store = configureStore({
- reducer: persistedReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
