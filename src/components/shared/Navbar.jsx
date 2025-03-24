@@ -34,7 +34,7 @@ export const Navbar = () => {
         <div className='bg-white'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
                 <div>
-                    <h1 className='text-2xl font-bold'>CPMS-JOB-<span className='text-[#4285F4]'>PORTAL</span></h1>
+                    <h1 className='text-2xl font-bold text-green-600' >CPMS-JOB-<span className='text-[#4285F4]'>PORTAL</span></h1>
                 </div>
 
                 <div className='flex items-center gap-12'>

@@ -22,7 +22,7 @@ export const HeroSection = () => {
                     College Placement Management System
                 </span>
                 <h1 className="text-5xl font-bold">
-                    Find Your <span className="text-[#6A38C2]">Dream Jobs & Apply Now</span>
+                    Find Your <span className="text-blue-600">Dream Jobs & Apply Now</span>
                 </h1>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                     Placement management system helps training and placement officers overcome the difficulty of 
