@@ -6,9 +6,9 @@ import { Contact, Mail, Pen } from 'lucide-react';
 import { Label } from './ui/label';
 import AppliedJobTable from './AppliedJobTable';
 import UpdateProfileDialog from './UpdateProfileDialog';
-import useGetAppliedJobs from '@/hooks/useGetAllJobs';
 import { useSelector } from 'react-redux';
 import { Badge } from './ui/badge';
+import useGetAppliedJobs from '@/hooks/useGetAppliedJobs';
 
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]

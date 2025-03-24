@@ -4,8 +4,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Badge } from './ui/badge';
 
 
+
 const AppliedJobTable = () => {
-    const {allAppliedJobs} = useSelector(store=>store.job);
+    const { allAppliedJobs } = useSelector(store => store.job);
     return (
         <div>
             <Table>
