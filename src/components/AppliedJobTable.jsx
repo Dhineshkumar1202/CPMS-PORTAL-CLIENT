@@ -1,6 +1,7 @@
-import React from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import { Badge } from './ui/badge';
 
 
 const AppliedJobTable = () => {
@@ -34,4 +35,4 @@ const AppliedJobTable = () => {
     )
 }
 
-export default AppliedJobTable
+export default AppliedJobTable;
