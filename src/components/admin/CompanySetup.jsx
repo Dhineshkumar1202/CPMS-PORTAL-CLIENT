@@ -1,16 +1,21 @@
+import useGetCompanyById from '@/hooks/useGetCompanyById';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Navbar } from '../shared/Navbar'
-import { ArrowLeft, Loader2 } from 'lucide-react'
-import { Button } from '../ui/button'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { toast } from 'sonner'
-import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Navbar } from '../shared/Navbar';
+import { Button } from '../ui/button';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { toast } from 'sonner';
+
+
+
 
 const CompanySetup = () => {
-    const navigate = useNavigate();
+    const params = useParams();
+    useGetCompanyById(params.id);
     const [input, setInput] = useState({
         name: "",
         description: "",
@@ -18,11 +23,9 @@ const CompanySetup = () => {
         location: "",
         file: null
     });
-    const { singleCompany } = useSelector(store => store.company);
+    const {singleCompany} = useSelector(store=>store.company);
     const [loading, setLoading] = useState(false);
-    const params = useParams();
-
-
+    const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -58,12 +61,11 @@ const CompanySetup = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
-        }
-        finally {
+        } finally {
             setLoading(false);
         }
-
     }
+
     useEffect(() => {
         setInput({
             name: singleCompany.name || "",
@@ -72,7 +74,7 @@ const CompanySetup = () => {
             location: singleCompany.location || "",
             file: singleCompany.file || null
         })
-    }, [singleCompany]);
+    },[singleCompany]);
 
     return (
         <div>
@@ -132,15 +134,14 @@ const CompanySetup = () => {
                             />
                         </div>
                     </div>
-
                     {
                         loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
                     }
                 </form>
             </div>
+
         </div>
     )
 }
-
 
 export default CompanySetup

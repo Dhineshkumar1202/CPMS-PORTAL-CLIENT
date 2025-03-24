@@ -1,26 +1,43 @@
-import { setSingleCompany } from '@/redux/CompanySlice'
-import { setAllJobs } from '@/redux/jobSlice'
+import { setSingleCompany } from '@/redux/CompanySlice';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
 
 const useGetCompanyById = (companyId) => {
     const dispatch = useDispatch();
-    useEffect(()=>{
+    const [loading, setLoading] = useState(false);  
+    const [error, setError] = useState(null);  
+
+    useEffect(() => {
+        if (!companyId) return;  
+
         const fetchSingleCompany = async () => {
+            setLoading(true);
+            setError(null);
+
             try {
-                const res = await axios.get(`http://localhost:8000/api/company/get/${companyId}`,{withCredentials:true});
+                const res = await axios.get(`http://localhost:8000/api/company/get/${companyId}`, {
+                    withCredentials: true
+                });
                 console.log(res.data.company);
-                if(res.data.success){
+
+                if (res.data.success) {
                     dispatch(setSingleCompany(res.data.company));
+                } else {
+                    setError('Failed to fetch company data');
                 }
             } catch (error) {
-                console.log(error);
+                console.error('Error fetching company:', error.response?.data || error.message);
+                setError(error.response?.data?.message || 'An error occurred');
+            } finally {
+                setLoading(false);
             }
-        }
-        fetchSingleCompany();
-    },[companyId, dispatch])
-}
+        };
 
-export default useGetCompanyById
+        fetchSingleCompany();
+    }, [companyId, dispatch]);
+
+    return { loading, error };  
+};
+
+export default useGetCompanyById;
