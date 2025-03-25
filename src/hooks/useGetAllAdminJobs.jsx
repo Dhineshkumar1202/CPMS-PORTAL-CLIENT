@@ -9,7 +9,7 @@ const useGetAllAdminJobs = () => {
     useEffect(() => {
         const fetchAllAdminJobs = async () => {
             try {
-                const res = await axios.get(`https://cpms-portal-server-cpms1.vercel.app/api/job/getadminjobs`, { withCredentials: true });
+                const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/job/getadminjobs`, { withCredentials: true });
                 if (res.data.success) {
                     dispatch(setAllAdminJobs(res.data.jobs));
                 }

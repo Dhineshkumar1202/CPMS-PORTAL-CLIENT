@@ -1,1 +1,1 @@
-export const USER_API_END_POINT="https://cpms-portal-server-cpms1.vercel.app/";
+export const USER_API_END_POINT="https://portal-server-cpms123.vercel.app";

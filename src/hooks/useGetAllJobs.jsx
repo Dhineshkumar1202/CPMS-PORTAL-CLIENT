@@ -10,7 +10,7 @@ const useGetAllJobs = () => {
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
-        const res = await axios.get(`https://cpms-portal-server-cpms1.vercel.app/api/job/get?keyword=${searchedQuery}`, { withCredentials: true });
+        const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/job/get?keyword=${searchedQuery}`, { withCredentials: true });
         if (res.data.success) {
           dispatch(setAllJobs(res.data.jobs));
         }

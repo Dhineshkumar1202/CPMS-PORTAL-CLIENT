@@ -45,7 +45,7 @@ const PostJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post(`https://cpms-portal-server-cpms1.vercel.app/api/job/post`, input, {
+            const res = await axios.post(`https://portal-server-cpms123.vercel.app/api/job/post`, input, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
