@@ -7,13 +7,13 @@ import Profile from './components/Profile'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Jobs from './components/Jobs'
-import Companies from './components/admin/companies.jsx'
 import CompanyCreate from './components/admin/CompanyCreate'
 import CompanySetup from './components/admin/CompanySetup'
 import AdminJobs from './components/admin/AdminJobs'
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+import Companies from './components/admin/Companies'
 
 
 
