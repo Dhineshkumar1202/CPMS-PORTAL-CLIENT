@@ -25,12 +25,12 @@ export const HeroSection = () => {
                     Find Your <span className="text-blue-600">Dream Jobs & Apply Now</span>
                 </h1>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                    Placement management system helps training and placement officers overcome the difficulty of 
-                    keeping records of thousands of students and searching for eligible students for recruitment, 
+                    Placement management system helps training and placement officers overcome the difficulty of
+                    keeping records of thousands of students and searching for eligible students for recruitment,
                     based on various eligibility criteria of different companies.
                 </p>
                 <div className="flex max-w-lg w-full shadow-lg bg-white border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto">
-                <input
+                    <input
                         type="text"
                         placeholder='Find your dream jobs'
                         onChange={(e) => setQuery(e.target.value)}

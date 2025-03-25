@@ -1,4 +1,4 @@
-import { setSingleCompany } from '@/redux/CompanySlice';
+import { setSingleCompany } from '@/redux/companySlice';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -20,10 +20,10 @@ const CompanyCreate = () => {
             toast.error("Company name is required.");
             return;
         }
-    
+
         try {
-            const res = await axios.post(`http://localhost:8000/api/company/register`, 
-                { companyName }, 
+            const res = await axios.post(`http://localhost:8000/api/company/register`,
+                { companyName },
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -31,8 +31,8 @@ const CompanyCreate = () => {
                     withCredentials: true
                 }
             );
-            console.log("Response:", res.data); // Debugging
-    
+            console.log("Response:", res.data);
+
             if (res?.data?.success) {
                 dispatch(setSingleCompany(res.data.company));
                 toast.success(res.data.message);
@@ -43,7 +43,7 @@ const CompanyCreate = () => {
             toast.error(error.response?.data?.message || "Something went wrong.");
         }
     };
-    
+
 
     return (
         <div>

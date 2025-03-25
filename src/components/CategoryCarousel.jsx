@@ -20,7 +20,7 @@ const CategoryCarousel = () => {
   const searchJobHandler = useCallback((query) => {
     dispatch(setSearchedQuery(query));
     navigate("/browse");
-  }, [dispatch, navigate]);  // ✅ Added dependency array
+  }, [dispatch, navigate]);
 
   return (
     <div>

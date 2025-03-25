@@ -41,7 +41,7 @@ const ApplicantsTable = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                         {
+                    {
                         applicants && applicants?.applications?.map((item) => (
                             <tr key={item._id}>
                                 <TableCell>{item?.applicant?.fullname}</TableCell>
