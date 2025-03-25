@@ -18,7 +18,7 @@ export const Navbar = () => {
 
     const logoutHandler = async () => {
         try {
-            const res = await axios.get(`http://localhost:8000/api/user/logout`, { withCredentials: true });
+            const res = await axios.get(`https://cpms-portal-server-cpms1.vercel.app/api/user/logout`, { withCredentials: true });
             if (res.data.success) {
                 dispatch(setUser(null));
                 navigate("/");

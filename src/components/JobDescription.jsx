@@ -22,7 +22,7 @@ const JobDescription = () => {
 
     const applyJobHandler = async () => {
         try {
-            const res = await axios.get(`http://localhost:8000/api/application/apply/${jobId}`, { withCredentials: true });
+            const res = await axios.get(`https://cpms-portal-server-cpms1.vercel.app/api/application/apply/${jobId}`, { withCredentials: true });
             console.log(res.data);
             if (res.data.message) {
                 setIsApplied(true);

@@ -22,7 +22,7 @@ const CompanyCreate = () => {
         }
 
         try {
-            const res = await axios.post(`http://localhost:8000/api/company/register`,
+            const res = await axios.post(`https://cpms-portal-server-cpms1.vercel.app/api/company/register`,
                 { companyName },
                 {
                     headers: {

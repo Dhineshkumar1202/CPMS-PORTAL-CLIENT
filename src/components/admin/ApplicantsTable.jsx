@@ -16,7 +16,7 @@ const ApplicantsTable = () => {
         console.log('called');
         try {
             axios.defaults.withCredentials = true;
-            const res = await axios.post(`http://localhost:8000/api/application/status/${id}/update`, { status });
+            const res = await axios.post(`https://cpms-portal-server-cpms1.vercel.app/api/application/status/${id}/update`, { status });
             console.log(res);
             if (res.data.success) {
                 toast.success(res.data.message);

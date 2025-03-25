@@ -48,7 +48,7 @@ const CompanySetup = () => {
         }
         try {
             setLoading(true);
-            const res = await axios.put(`http://localhost:8000/api/company/update/${params.id}`, formData, {
+            const res = await axios.put(`https://cpms-portal-server-cpms1.vercel.app/api/company/update/${params.id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

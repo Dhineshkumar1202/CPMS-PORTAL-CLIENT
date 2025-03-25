@@ -45,7 +45,7 @@ const Signup = () => {
 
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`http://localhost:8000/api/user/register`, formData, {
+            const res = await axios.post(`https://cpms-portal-server-cpms1.vercel.app/api/user/register`, formData, {
                 headers: { 'Content-Type': "multipart/form-data" },
                 withCredentials: true,
             });
