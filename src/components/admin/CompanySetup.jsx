@@ -1,6 +1,6 @@
 import useGetCompanyById from '@/hooks/useGetCompanyById';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '../shared/Navbar';
@@ -9,9 +9,6 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { toast } from 'sonner';
-
-
-
 
 const CompanySetup = () => {
     const params = useParams();
@@ -23,21 +20,23 @@ const CompanySetup = () => {
         location: "",
         file: null
     });
-    const {singleCompany} = useSelector(store=>store.company);
+
+    const { singleCompany } = useSelector(store => store.company);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
-    }
+    };
 
     const changeFileHandler = (e) => {
         const file = e.target.files?.[0];
         setInput({ ...input, file });
-    }
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append("name", input.name);
         formData.append("description", input.description);
@@ -46,25 +45,30 @@ const CompanySetup = () => {
         if (input.file) {
             formData.append("file", input.file);
         }
+
         try {
             setLoading(true);
-            const res = await axios.put(`https://portal-server-cpms123.vercel.app/api/company/update/${params.id}`, formData, {
+            const token = localStorage.getItem("token"); 
+
+            const res = await axios.put(`http://localhost:3000/api/company/update/${params.id}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}` 
                 },
                 withCredentials: true
             });
+
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/admin/companies");
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Failed to update company.");
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         setInput({
@@ -72,9 +76,9 @@ const CompanySetup = () => {
             description: singleCompany.description || "",
             website: singleCompany.website || "",
             location: singleCompany.location || "",
-            file: singleCompany.file || null
-        })
-    },[singleCompany]);
+            file: null 
+        });
+    }, [singleCompany]);
 
     return (
         <div>
@@ -88,6 +92,7 @@ const CompanySetup = () => {
                         </Button>
                         <h1 className='font-bold text-xl'>Company Setup</h1>
                     </div>
+
                     <div className='grid grid-cols-2 gap-4'>
                         <div>
                             <Label>Company Name</Label>
@@ -134,14 +139,20 @@ const CompanySetup = () => {
                             />
                         </div>
                     </div>
+
                     {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
+                        loading ? (
+                            <Button className="w-full my-4" disabled>
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full my-4">Update</Button>
+                        )
                     }
                 </form>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-export default CompanySetup
+export default CompanySetup;

@@ -9,9 +9,16 @@ const useGetAllJobs = () => {
 
   const fetchAllJobs = useCallback(async () => {
     try {
+      const token = localStorage.getItem("token"); 
+
       const res = await axios.get(
-        `https://portal-server-cpms123.vercel.app/api/job/get?keyword=${searchedQuery}`,
-        { withCredentials: true }
+        `http://localhost:3000/api/job/get?keyword=${searchedQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+          withCredentials: true,
+        }
       );
 
       if (res.data.success) {
@@ -24,10 +31,6 @@ const useGetAllJobs = () => {
 
   useEffect(() => {
     fetchAllJobs();
-
-    return () => {
-      
-    };
   }, [fetchAllJobs]);
 };
 

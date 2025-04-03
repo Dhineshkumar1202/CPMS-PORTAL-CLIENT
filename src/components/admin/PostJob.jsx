@@ -1,17 +1,16 @@
-import { Label } from '@radix-ui/react-label'
-import React, { useState } from 'react'
-import { Input } from '../ui/input'
-import { Navbar } from '../shared/Navbar'
-import { Button } from '../ui/button'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
-import axios from 'axios'
-import { toast } from 'sonner'
+import { Label } from '@radix-ui/react-label';
+import React, { useState } from 'react';
+import { Input } from '../ui/input';
+import { Navbar } from '../shared/Navbar';
+import { Button } from '../ui/button';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
+import axios from 'axios';
+import { toast } from 'sonner';
 
-
-const companyArray = []
+const companyArray = [];
 
 const PostJob = () => {
     const [input, setInput] = useState({
@@ -28,39 +27,43 @@ const PostJob = () => {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
     const { companies } = useSelector(store => store.company);
+
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
-
 
     const selectChangeHandler = (value) => {
         const selectedCompany = companies.find((company) => company.name.toLowerCase() === value);
         setInput({ ...input, companyId: selectedCompany._id });
     };
 
-
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post(`https://portal-server-cpms123.vercel.app/api/job/post`, input, {
+            const token = localStorage.getItem("token"); 
+
+            const res = await axios.post(`http://localhost:3000/api/job/post`, input, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}` 
                 },
                 withCredentials: true
             });
+
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/admin/jobs");
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Job post failed.");
+            console.error("Post Job Error:", error);
         } finally {
             setLoading(false);
         }
-    }
+    };
+
     return (
         <div>
             <Navbar />
@@ -138,7 +141,7 @@ const PostJob = () => {
                             />
                         </div>
                         <div>
-                            <Label>No of Postion</Label>
+                            <Label>No of Positions</Label>
                             <Input
                                 type="number"
                                 name="position"
@@ -147,6 +150,7 @@ const PostJob = () => {
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"
                             />
                         </div>
+
                         {companies?.length > 0 && (
                             <Select onValueChange={selectChangeHandler}>
                                 <SelectTrigger className="w-[180px]">
@@ -155,27 +159,37 @@ const PostJob = () => {
                                 <SelectContent>
                                     <SelectGroup>
                                         {companies.map((company) => (
-                                            <SelectItem key={company.id || company.name} value={company?.name?.toLowerCase() || ''}>
-                                                {company.name || 'Unknown Company'}
+                                            <SelectItem key={company._id} value={company?.name?.toLowerCase()}>
+                                                {company.name}
                                             </SelectItem>
                                         ))}
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
                         )}
-
                     </div>
+
                     {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Post New Job</Button>
+                        loading ? (
+                            <Button className="w-full my-4">
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full my-4">Post New Job</Button>
+                        )
                     }
+
                     {
-                        companyArray.length === 0 && <p className='text-xs text-red-600 font-bold text-center my-3'>*Please register a company first, before posting a jobs</p>
+                        companyArray.length === 0 && (
+                            <p className='text-xs text-red-600 font-bold text-center my-3'>
+                                *Please register a company first, before posting a job
+                            </p>
+                        )
                     }
                 </form>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-export default PostJob
+export default PostJob;

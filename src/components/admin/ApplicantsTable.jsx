@@ -1,11 +1,18 @@
 import React from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from '../ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { MoreHorizontal } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import axios from 'axios';
-
 
 const shortlistingStatus = ["Accepted", "Rejected"];
 
@@ -15,21 +22,33 @@ const ApplicantsTable = () => {
     const statusHandler = async (status, id) => {
         console.log('called');
         try {
-            axios.defaults.withCredentials = true;
-            const res = await axios.post(`https://portal-server-cpms123.vercel.app/api/application/status/${id}/update`, { status });
-            console.log(res);
+            const token = localStorage.getItem("token");
+
+            const res = await axios.post(
+                `http://localhost:3000/api/application/status/${id}/update`,
+                { status },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true
+                }
+            );
+
             if (res.data.success) {
                 toast.success(res.data.message);
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            console.error("Status Update Error:", error);
+            toast.error(error?.response?.data?.message || "Something went wrong");
         }
     }
 
     return (
         <div>
             <Table>
-                <TableCaption>A list of your recent applied user</TableCaption>
+                <TableCaption>A list of your recent applied users</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead>FullName</TableHead>
@@ -43,16 +62,27 @@ const ApplicantsTable = () => {
                 <TableBody>
                     {
                         applicants && applicants?.applications?.map((item) => (
-                            <tr key={item._id}>
+                            <TableRow key={item._id}>
                                 <TableCell>{item?.applicant?.fullname}</TableCell>
                                 <TableCell>{item?.applicant?.email}</TableCell>
                                 <TableCell>{item?.applicant?.phoneNumber}</TableCell>
-                                <TableCell >
+                                <TableCell>
                                     {
-                                        item.applicant?.profile?.resume ? <a className="text-blue-600 cursor-pointer" href={item?.applicant?.profile?.resume} target="_blank" rel="noopener noreferrer">{item?.applicant?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                                        item.applicant?.profile?.resume ? (
+                                            <a
+                                                className="text-blue-600 underline"
+                                                href={item?.applicant?.profile?.resume}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {item?.applicant?.profile?.resumeOriginalName || "View Resume"}
+                                            </a>
+                                        ) : (
+                                            <span>NA</span>
+                                        )
                                     }
                                 </TableCell>
-                                <TableCell>{item?.applicant.createdAt.split("T")[0]}</TableCell>
+                                <TableCell>{item?.createdAt?.split("T")[0]}</TableCell>
                                 <TableCell className="float-right cursor-pointer">
                                     <Popover>
                                         <PopoverTrigger>
@@ -60,20 +90,20 @@ const ApplicantsTable = () => {
                                         </PopoverTrigger>
                                         <PopoverContent className="w-32">
                                             {
-                                                shortlistingStatus.map((status, index) => {
-                                                    return (
-                                                        <div onClick={() => statusHandler(status, item?._id)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
-                                                            <span>{status}</span>
-                                                        </div>
-                                                    )
-                                                })
+                                                shortlistingStatus.map((status, index) => (
+                                                    <div
+                                                        onClick={() => statusHandler(status, item?._id)}
+                                                        key={index}
+                                                        className='flex w-fit items-center my-2 cursor-pointer hover:underline'
+                                                    >
+                                                        <span>{status}</span>
+                                                    </div>
+                                                ))
                                             }
                                         </PopoverContent>
                                     </Popover>
-
                                 </TableCell>
-
-                            </tr>
+                            </TableRow>
                         ))
                     }
                 </TableBody>
@@ -82,4 +112,4 @@ const ApplicantsTable = () => {
     )
 }
 
-export default ApplicantsTable
+export default ApplicantsTable;

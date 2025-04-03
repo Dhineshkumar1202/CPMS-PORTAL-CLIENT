@@ -3,24 +3,32 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-
 const useGetAllCompanies = () => {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-        const fetchCompanies = async () => {
-            try {
-                const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/company/get`, { withCredentials: true });
-                console.log('called');
-                if (res.data.success) {
-                    dispatch(setCompanies(res.data.companies));
-                }
-            } catch (error) {
-                console.log(error);
-            }
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const token = localStorage.getItem("token"); 
+
+        const res = await axios.get(`http://localhost:3000/api/company/get`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true
+        });
+
+        console.log('called');
+        if (res.data.success) {
+          dispatch(setCompanies(res.data.companies));
         }
-        fetchCompanies();
-    }, [])
-}
+      } catch (error) {
+        console.log("Error fetching companies:", error.response?.data || error.message);
+      }
+    };
 
-export default useGetAllCompanies
+    fetchCompanies();
+  }, []);
+};
+
+export default useGetAllCompanies;
