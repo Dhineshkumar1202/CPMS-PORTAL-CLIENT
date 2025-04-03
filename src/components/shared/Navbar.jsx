@@ -17,15 +17,23 @@ export const Navbar = () => {
 
     const logoutHandler = async () => {
         try {
-            const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/user/logout`, { withCredentials: true });
+            const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/user/logout`, {
+                withCredentials: true,
+            });
+    
             if (res.data.success) {
+                localStorage.removeItem("token");
+    
                 dispatch(setUser(null));
+                dispatch({ type: "job/reset" });
+                dispatch({ type: "company/reset" });
+
                 navigate("/");
                 toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Logout failed");
         }
     };
 
