@@ -30,12 +30,12 @@ const Login = () => {
         e.preventDefault();
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`https://portal-server-cpms123.vercel.app/api/user/login`, input, {
+            const res = await axios.post(`http://localhost:3000/api/user/login`, input, {
                 headers: { "Content-Type": "application/json" }
             });
 
             if (res.data.success) {
-                localStorage.setItem("token", res.data.token); // ✅ Store token
+                localStorage.setItem("token", res.data.token);
                 dispatch(setUser(res.data.user));
                 navigate("/");
                 toast.success(res.data.message);
@@ -52,7 +52,7 @@ const Login = () => {
         if (user) {
             navigate("/");
         }
-    }, [user]); // ✅ Fixed dependency
+    }, [user]); 
 
     return (
         <div>

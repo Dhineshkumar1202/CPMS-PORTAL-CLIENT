@@ -15,12 +15,18 @@ const Applicants = () => {
     useEffect(() => {
         const fetchAllApplicants = async () => {
             try {
-                const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/application/${params.id}/applicants`, { withCredentials: true });
+                const token = localStorage.getItem("token"); 
+                const res = await axios.get(`http://localhost:3000/api/application/${params.id}/applicants`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, 
+                    },
+                    withCredentials: true
+                });
                 dispatch(setAllApplicants(res.data.job));
             } catch (error) {
-                console.log(error);
+                console.log("Error fetching applicants:", error);
             }
-        }
+        };
         fetchAllApplicants();
     }, []);
     return (
