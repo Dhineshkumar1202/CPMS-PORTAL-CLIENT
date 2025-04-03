@@ -11,7 +11,7 @@ const useGetAllAdminJobs = () => {
             try {
                 const token = localStorage.getItem("token"); 
 
-                const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/job/getadminjobs`, {
+                const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/job/getadminjobs`, {
                     headers: {
                         Authorization: `Bearer ${token}`, 
                     },

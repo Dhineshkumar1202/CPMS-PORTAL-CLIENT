@@ -11,7 +11,7 @@ const useGetAllCompanies = () => {
       try {
         const token = localStorage.getItem("token"); 
 
-        const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/company/get`, {
+        const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/company/get`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

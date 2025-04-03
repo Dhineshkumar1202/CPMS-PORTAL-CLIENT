@@ -10,7 +10,7 @@ const useGetAppliedJobs = () => {
         const fetchAppliedJobs = async () => {
             try {
                 const token = localStorage.getItem("token")
-                const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/application/get`, {
+                const res = await axios.get(`https://portal-server-cpms123.vercel.app/api/application/get`, {
                     headers: {
                         Authorization: `Bearer ${token}` 
                     },
