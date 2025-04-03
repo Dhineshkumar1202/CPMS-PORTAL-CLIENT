@@ -44,7 +44,7 @@ const PostJob = () => {
             setLoading(true);
             const token = localStorage.getItem("token"); 
 
-            const res = await axios.post(`http://localhost:3000/api/job/post`, input, {
+            const res = await axios.post(`https://portal-server-cpms123.vercel.app//api/job/post`, input, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}` 

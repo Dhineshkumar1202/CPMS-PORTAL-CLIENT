@@ -25,7 +25,7 @@ const ApplicantsTable = () => {
             const token = localStorage.getItem("token");
 
             const res = await axios.post(
-                `http://localhost:3000/api/application/status/${id}/update`,
+                `https://portal-server-cpms123.vercel.app//api/application/status/${id}/update`,
                 { status },
                 {
                     headers: {
