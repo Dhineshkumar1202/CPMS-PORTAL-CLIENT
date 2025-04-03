@@ -12,7 +12,7 @@ const useGetAllJobs = () => {
       const token = localStorage.getItem("token"); 
 
       const res = await axios.get(
-        `http://localhost:3000/api/job/get?keyword=${searchedQuery}`,
+        `https://portal-server-cpms123.vercel.app//api/job/get?keyword=${searchedQuery}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, 

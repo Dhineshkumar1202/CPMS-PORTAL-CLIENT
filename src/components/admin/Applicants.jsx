@@ -16,7 +16,7 @@ const Applicants = () => {
         const fetchAllApplicants = async () => {
             try {
                 const token = localStorage.getItem("token"); 
-                const res = await axios.get(`http://localhost:3000/api/application/${params.id}/applicants`, {
+                const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/application/${params.id}/applicants`, {
                     headers: {
                         Authorization: `Bearer ${token}`, 
                     },

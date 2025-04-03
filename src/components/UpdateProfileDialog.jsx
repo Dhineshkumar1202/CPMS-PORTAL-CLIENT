@@ -52,7 +52,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:3000/api/user/profile/update",
+        "https://portal-server-cpms123.vercel.app//api/user/profile/update",
         formData,
         {
           headers: {

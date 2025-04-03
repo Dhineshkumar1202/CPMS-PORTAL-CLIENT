@@ -20,7 +20,7 @@ const JobDescription = () => {
     const applyJobHandler = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await axios.get(`http://localhost:3000/api/application/apply/${jobId}`, {
+            const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/application/apply/${jobId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -47,7 +47,7 @@ const JobDescription = () => {
             try {
                 const token = localStorage.getItem("token");
 
-                const res = await axios.get(`http://localhost:3000/api/job/get/${jobId}`, {
+                const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/job/get/${jobId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

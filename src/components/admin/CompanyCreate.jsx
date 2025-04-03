@@ -24,7 +24,7 @@ const CompanyCreate = () => {
       const token = localStorage.getItem("token"); 
 
       const res = await axios.post(
-        `http://localhost:3000/api/company/register`,
+        `https://portal-server-cpms123.vercel.app//api/company/register`,
         { companyName },
         {
           headers: {

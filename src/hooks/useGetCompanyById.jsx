@@ -16,7 +16,7 @@ const useGetCompanyById = (companyId) => {
             setError(null);
 
             try {
-                const res = await axios.get(`http://localhost:3000/api/company/get/${companyId}`, {
+                const res = await axios.get(`https://portal-server-cpms123.vercel.app//api/company/get/${companyId}`, {
                     withCredentials: true
                 });
                 console.log(res.data.company);

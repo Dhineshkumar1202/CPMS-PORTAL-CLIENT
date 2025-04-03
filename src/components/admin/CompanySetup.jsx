@@ -50,7 +50,7 @@ const CompanySetup = () => {
             setLoading(true);
             const token = localStorage.getItem("token"); 
 
-            const res = await axios.put(`http://localhost:3000/api/company/update/${params.id}`, formData, {
+            const res = await axios.put(`https://portal-server-cpms123.vercel.app//api/company/update/${params.id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}` 
